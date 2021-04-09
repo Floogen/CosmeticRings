@@ -3,7 +3,7 @@
   "Author": "PeacefulEnd",
   "Version": "REPLACE_ME_WITH_VERSION",
   "Description": "A variety of rings with cosmetic effects. ",
-  "UniqueID": "PeacefulEnd.FishingTrawler",
+  "UniqueID": "PeacefulEnd.CosmeticRings",
   "EntryDll": "CosmeticRings.dll",
   "MinimumApiVersion": "3.0.0",
   "UpdateKeys": [ "Nexus:????" ],
