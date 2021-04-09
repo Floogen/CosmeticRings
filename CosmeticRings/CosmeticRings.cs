@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CosmeticRings
 {
-    public class ModEntry : Mod
+    public class CosmeticRings : Mod
     {
         public override void Entry(IModHelper helper)
         {
