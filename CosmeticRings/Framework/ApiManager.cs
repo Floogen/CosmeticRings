@@ -3,12 +3,12 @@ using CosmeticRings.Framework.Interfaces;
 
 namespace CosmeticRings.Framework
 {
-    public static class ApiManager
+    internal static class ApiManager
     {
         private static IMonitor monitor = CosmeticRings.monitor;
         private static IJsonAssetsApi jsonAssetsApi;
 
-        public static bool HookIntoJsonAssets(IModHelper helper)
+        internal static bool HookIntoJsonAssets(IModHelper helper)
         {
             jsonAssetsApi = helper.ModRegistry.GetApi<IJsonAssetsApi>("spacechase0.JsonAssets");
 
@@ -22,7 +22,7 @@ namespace CosmeticRings.Framework
             return true;
         }
 
-        public static IJsonAssetsApi GetJsonAssetsApi()
+        internal static IJsonAssetsApi GetJsonAssetsApi()
         {
             return jsonAssetsApi;
         }
