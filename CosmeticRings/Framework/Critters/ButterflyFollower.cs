@@ -12,10 +12,9 @@ namespace CosmeticRings.Framework.Critters
 {
     internal class ButterflyFollower : Critter
     {
-        public const float maxSpeed = 3f;
         private int flapTimer;
         private int checkForLandingSpotTimer;
-        private int landedTimer;
+        private bool hasLanded;
         private int flapSpeed = 50;
         private Vector2 motion;
         private float motionMultiplier = 1f;
@@ -23,8 +22,8 @@ namespace CosmeticRings.Framework.Critters
         private bool islandButterfly;
         public bool stayInbounds;
 
-        private readonly float spawnOffsetY;
-        private readonly float spawnOffsetX;
+        private float spawnOffsetY;
+        private float spawnOffsetX;
 
         public ButterflyFollower(Vector2 position, bool islandButterfly = false)
         {
@@ -56,44 +55,19 @@ namespace CosmeticRings.Framework.Critters
             base.sprite.loop = false;
             base.startingPosition = position;
 
-            this.stayInbounds = true;
+            this.checkForLandingSpotTimer = 2000;
         }
 
-        public void doneWithFlap(Farmer who)
+        internal void doneWithFlap(Farmer who)
         {
             this.flapTimer = 200 + Game1.random.Next(-5, 6);
         }
 
-        public override bool update(GameTime time, GameLocation environment)
+        internal void performFlap(GameTime time, bool applyMotion, bool overrideAnimation = false)
         {
-            Vector2 targetPosition = Game1.player.position + new Vector2(spawnOffsetX, spawnOffsetY);
-            Vector2 smoothedPosition = Vector2.Lerp(this.position, targetPosition, 0.05f);
-            Vector2 smoothedPositionSlow = Vector2.Lerp(this.position, targetPosition, 0.02f);
-
-            //setting up a "wander zone" where the Will'o'the'Wisp is less restricted within a defined distance of the player
-            if (Vector2.Distance(targetPosition, this.position) >= 64f)
-            {
-                this.position = smoothedPosition;
-            }
-            else
-            {
-                this.position = smoothedPositionSlow;
-            }
-
             this.flapTimer -= time.ElapsedGameTime.Milliseconds;
-            if (this.flapTimer <= 0 && base.sprite.CurrentAnimation == null)
+            if (this.flapTimer <= 0 && (base.sprite.CurrentAnimation == null || overrideAnimation))
             {
-                this.motionMultiplier = 1f;
-                this.motion.X += (float)Game1.random.Next(-80, 81) / 100f;
-                this.motion.Y = (float)(Game1.random.NextDouble() + 0.25) * -3f / 2f;
-                if (Math.Abs(this.motion.X) > 1.5f)
-                {
-                    this.motion.X = 3f * (float)Math.Sign(this.motion.X) / 2f;
-                }
-                if (Math.Abs(this.motion.Y) > 3f)
-                {
-                    this.motion.Y = 3f * (float)Math.Sign(this.motion.Y);
-                }
                 if (this.summerButterfly)
                 {
                     base.sprite.setCurrentAnimation(new List<FarmerSprite.AnimationFrame>
@@ -116,15 +90,87 @@ namespace CosmeticRings.Framework.Critters
                         new FarmerSprite.AnimationFrame(base.baseFrame, this.flapSpeed, secondaryArm: false, flip: false, doneWithFlap)
                     });
                 }
+
+                if (applyMotion)
+                {
+                    this.motionMultiplier = 1f;
+                    this.motion.X += (float)Game1.random.Next(-80, 81) / 100f;
+                    this.motion.Y = (float)(Game1.random.NextDouble() + 0.25) * -3f / 2f;
+                    if (Math.Abs(this.motion.X) > 1.5f)
+                    {
+                        this.motion.X = 3f * (float)Math.Sign(this.motion.X) / 2f;
+                    }
+                    if (Math.Abs(this.motion.Y) > 3f)
+                    {
+                        this.motion.Y = 3f * (float)Math.Sign(this.motion.Y);
+                    }
+                }
             }
 
-            base.position += this.motion * this.motionMultiplier;
-            this.motion.Y += 0.005f * (float)time.ElapsedGameTime.Milliseconds;
-            this.motionMultiplier -= 0.0005f * (float)time.ElapsedGameTime.Milliseconds;
-            if (this.motionMultiplier <= 0f)
+            if (applyMotion)
             {
-                this.motionMultiplier = 0f;
+                base.position += this.motion * this.motionMultiplier;
+                this.motion.Y += 0.005f * (float)time.ElapsedGameTime.Milliseconds;
+                this.motionMultiplier -= 0.0005f * (float)time.ElapsedGameTime.Milliseconds;
+                if (this.motionMultiplier <= 0f)
+                {
+                    this.motionMultiplier = 0f;
+                }
             }
+        }
+
+        public override bool update(GameTime time, GameLocation environment)
+        {
+            this.checkForLandingSpotTimer = Game1.player.isMoving() ? Game1.random.Next(5000, 10000) : checkForLandingSpotTimer - time.ElapsedGameTime.Milliseconds;
+            if (this.checkForLandingSpotTimer <= 0)
+            {
+                performFlap(time, false);
+
+                if (Vector2.Distance(Game1.player.position + new Vector2(64f, 32f), this.position) <= 2f && !this.hasLanded)
+                {
+                    this.hasLanded = true;
+                    this.flapSpeed = Game1.random.Next(550, 1000);
+                }
+                else
+                {
+                    this.position = Vector2.Lerp(this.position, Game1.player.position + new Vector2(64f, 32f), 0.02f);
+                }
+
+                return base.update(time, environment);
+            }
+
+            if (this.hasLanded)
+            {
+                this.hasLanded = false;
+                this.flapSpeed = Game1.random.Next(45, 80);
+                performFlap(time, true, true);
+            }
+
+            if (Game1.player.isMoving())
+            {
+                spawnOffsetX = Game1.player.position.X + spawnOffsetX < this.position.X ? 84f : 20f;
+                this.flapSpeed = Math.Max(35, flapSpeed - 1);
+            }
+            else if (this.flapSpeed == 35)
+            {
+                this.flapSpeed = Game1.random.Next(45, 80);
+            }
+
+            Vector2 targetPosition = Game1.player.position + new Vector2(spawnOffsetX, spawnOffsetY);
+            Vector2 smoothedPosition = Vector2.Lerp(this.position, targetPosition, 0.05f);
+            Vector2 smoothedPositionSlow = Vector2.Lerp(this.position, targetPosition, 0.02f);
+
+            //setting up a "wander zone" where the Will'o'the'Wisp is less restricted within a defined distance of the player
+            if (Vector2.Distance(targetPosition, this.position) >= 64f)
+            {
+                this.position = smoothedPosition;
+            }
+            else
+            {
+                this.position = smoothedPositionSlow;
+            }
+
+            performFlap(time, true);
             return base.update(time, environment);
         }
 
