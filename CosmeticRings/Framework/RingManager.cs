@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CosmeticRings.Framework
 {
-    internal enum RingTypes
+    internal enum RingType
     {
         Unknown,
         PetalRing
@@ -19,7 +19,7 @@ namespace CosmeticRings.Framework
         internal static List<string> GetRingNames()
         {
             List<string> ringNames = new List<string>();
-            foreach (var ringType in Enum.GetValues(typeof(RingTypes)))
+            foreach (var ringType in Enum.GetValues(typeof(RingType)))
             {
                 ringNames.Add(String.Concat(_ringNamePrefix, ".", ringType));
             }
@@ -31,5 +31,7 @@ namespace CosmeticRings.Framework
         {
             return GetRingNames().Contains(ringName);
         }
+
+        internal static void HandleEquip(RingType ring)
     }
 }
