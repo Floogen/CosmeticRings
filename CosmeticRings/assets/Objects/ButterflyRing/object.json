@@ -1,6 +1,6 @@
 {
-  "Name": "PeacefulEnd.Rings.ButterflyRing",
-  "Description": "A pair of butterfly wings adorn the top of the ring.",
+  "Name": "PeacefulEnd.Rings.PetalRing",
+  "Description": "A soft band of petals.",
   "Category": "Ring",
   "Edibility": -300,
   "Price": 0,
@@ -9,6 +9,6 @@
   "PurchaseFrom": "HatMouse",
   "PurchasePrice": 100,
   "NameLocalization": {
-    "en": "Butterfly Ring"
+    "en": "Petal Ring"
   }
 }

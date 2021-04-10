@@ -26,19 +26,19 @@ namespace CosmeticRings.Framework.Patches
             harmony.Patch(AccessTools.Method(_ring, nameof(Ring.onUnequip), new[] { typeof(Farmer), typeof(GameLocation) }), postfix: new HarmonyMethod(GetType(), nameof(OnUnequipPostfix)));
         }
 
-        private static void OnEquipPostfix(Ring __instance)
+        private static void OnEquipPostfix(Ring __instance, Farmer who, GameLocation location)
         {
             if (RingManager.IsCosmeticRing(__instance.Name))
             {
-                monitor.Log("PING", LogLevel.Debug);
+                RingManager.HandleEquip(who, location, __instance.Name);
             }
         }
 
-        private static void OnUnequipPostfix(Ring __instance)
+        private static void OnUnequipPostfix(Ring __instance, Farmer who, GameLocation location)
         {
             if (RingManager.IsCosmeticRing(__instance.Name))
             {
-                monitor.Log("PONG", LogLevel.Debug);
+                RingManager.HandleUnequip(who, location, __instance.Name);
             }
         }
     }

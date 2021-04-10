@@ -41,6 +41,15 @@ namespace CosmeticRings
 
             // Hook into GameLoop events
             helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
+            helper.Events.GameLoop.OneSecondUpdateTicked += this.OnOneSecondUpdateTicked;
+        }
+
+        private void OnOneSecondUpdateTicked(object sender, OneSecondUpdateTickedEventArgs e)
+        {
+            if (RingManager.HasCosmeticRingEquipped(Game1.player))
+            {
+                RingManager.UpdateRingEffects(Game1.player, Game1.currentLocation);
+            }
         }
 
         private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
