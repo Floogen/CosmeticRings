@@ -24,6 +24,7 @@ namespace CosmeticRings.Framework.Rings
 
             // Spawn butterfly
             _butterfly = new ButterflyFollower(who.getTileLocation());
+
             location.critters.Add(_butterfly);
         }
 
@@ -32,12 +33,30 @@ namespace CosmeticRings.Framework.Rings
             if (_butterfly != null)
             {
                 location.critters.Remove(_butterfly);
+                _butterfly = null;
             }
+        }
+
+        internal static void HandleNewLocation(Farmer who, GameLocation location)
+        {
+            if (location.critters is null)
+            {
+                location.critters = new List<Critter>();
+            }
+
+            if (_butterfly is null)
+            {
+                // Spawn butterfly
+                _butterfly = new ButterflyFollower(who.getTileLocation());
+            }
+
+            _butterfly.resetForNewLocation(who.getTileLocation());
+            location.critters.Add(_butterfly);
         }
 
         internal static void Update(Farmer who, GameLocation location)
         {
-
+            // Do nothing
         }
     }
 }

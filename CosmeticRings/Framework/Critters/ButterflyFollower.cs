@@ -12,20 +12,20 @@ namespace CosmeticRings.Framework.Critters
 {
     internal class ButterflyFollower : Critter
     {
+        internal bool summerButterfly;
+
         private int flapTimer;
         private int checkForLandingSpotTimer;
         private bool hasLanded;
         private int flapSpeed = 50;
         private Vector2 motion;
         private float motionMultiplier = 1f;
-        private bool summerButterfly;
-        private bool islandButterfly;
         public bool stayInbounds;
 
         private float spawnOffsetY;
         private float spawnOffsetX;
 
-        public ButterflyFollower(Vector2 position, bool islandButterfly = false)
+        public ButterflyFollower(Vector2 position)
         {
             // Determine if X spawn will be to left or right of player
             spawnOffsetX = 20f + (Game1.random.Next(0, 2) * 64f);
@@ -33,21 +33,25 @@ namespace CosmeticRings.Framework.Critters
 
             base.position = position * 64f;
             base.startingPosition = base.position;
-            if (Game1.currentSeason.Equals("spring"))
+
+            switch (Game1.random.NextDouble())
             {
-                base.baseFrame = ((Game1.random.NextDouble() < 0.5) ? (Game1.random.Next(3) * 3 + 160) : (Game1.random.Next(3) * 3 + 180));
+                case var chance when chance <= 0.15:
+                    // Rare chance for island butterflies
+                    base.baseFrame = Game1.random.Next(4) * 4 + 364;
+                    this.summerButterfly = true;
+                    break;
+                case var chance when chance <= 0.50:
+                    // Common chance for summer butterflies
+                    base.baseFrame = ((Game1.random.NextDouble() < 0.5) ? (Game1.random.Next(3) * 4 + 128) : (Game1.random.Next(3) * 4 + 148));
+                    this.summerButterfly = true;
+                    break;
+                default:
+                    // Spring butterflies are default
+                    base.baseFrame = ((Game1.random.NextDouble() < 0.5) ? (Game1.random.Next(3) * 3 + 160) : (Game1.random.Next(3) * 3 + 180));
+                    break;
             }
-            else
-            {
-                base.baseFrame = ((Game1.random.NextDouble() < 0.5) ? (Game1.random.Next(3) * 4 + 128) : (Game1.random.Next(3) * 4 + 148));
-                this.summerButterfly = true;
-            }
-            if (islandButterfly)
-            {
-                this.islandButterfly = islandButterfly;
-                base.baseFrame = Game1.random.Next(4) * 4 + 364;
-                this.summerButterfly = true;
-            }
+
 
             this.motion = new Vector2((float)(Game1.random.NextDouble() + 0.25) * 3f * (float)((!(Game1.random.NextDouble() < 0.5)) ? 1 : (-1)) / 2f, (float)(Game1.random.NextDouble() + 0.5) * 3f * (float)((!(Game1.random.NextDouble() < 0.5)) ? 1 : (-1)) / 2f);
             this.flapSpeed = Game1.random.Next(45, 80);
@@ -56,6 +60,12 @@ namespace CosmeticRings.Framework.Critters
             base.startingPosition = position;
 
             this.checkForLandingSpotTimer = 2000;
+        }
+
+        internal void resetForNewLocation(Vector2 position)
+        {
+            base.position = position * 64f;
+            base.startingPosition = base.position;
         }
 
         internal void doneWithFlap(Farmer who)

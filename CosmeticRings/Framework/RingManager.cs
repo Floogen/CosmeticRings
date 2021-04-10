@@ -103,12 +103,10 @@ namespace CosmeticRings.Framework
             switch (GetRingTypeFromName(ringName))
             {
                 case RingType.PetalRing:
-                    wornRings.Remove(RingType.PetalRing);
-                    PetalRing.HandleEquip(who, location);
+                    PetalRing.HandleNewLocation(who, location);
                     break;
                 case RingType.ButterflyRing:
-                    wornRings.Remove(RingType.ButterflyRing);
-                    ButterflyRing.HandleEquip(who, location);
+                    ButterflyRing.HandleNewLocation(who, location);
                     break;
                 default:
                     // Do nothing, though we should never reach here as Unknown isn't handled
