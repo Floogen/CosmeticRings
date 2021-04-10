@@ -1,4 +1,7 @@
 ﻿using CosmeticRings.Framework;
+using CosmeticRings.Framework.Interfaces;
+using CosmeticRings.Framework.Patches;
+using Harmony;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -22,6 +25,21 @@ namespace CosmeticRings
             monitor = Monitor;
             modHelper = helper;
 
+            // Load our Harmony patches
+            try
+            {
+                var harmony = HarmonyInstance.Create(this.ModManifest.UniqueID);
+
+                // Apply our patches
+                new RingPatch(monitor).Apply(harmony);
+            }
+            catch (Exception e)
+            {
+                Monitor.Log($"Issue with Harmony patching: {e}", LogLevel.Error);
+                return;
+            }
+
+            // Hook into GameLoop events
             helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
         }
 

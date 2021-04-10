@@ -1,5 +1,5 @@
 {
-  "Name": "Petal Ring",
+  "Name": "PeacefulEnd.Rings.PetalRing",
   "Description": "A soft band of petals.",
   "Category": "Ring",
   "Edibility": -300,
@@ -7,5 +7,8 @@
   "Recipe": null,
   "CanPurchase": true,
   "PurchaseFrom": "HatMouse",
-  "PurchasePrice": 100
+  "PurchasePrice": 100,
+  "NameLocalization": {
+    "en": "Petal Ring"
+  }
 }
