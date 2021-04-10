@@ -52,6 +52,9 @@ namespace CosmeticRings.Framework
                     case RingType.PetalRing:
                         PetalRing.Update(who, location);
                         break;
+                    case RingType.ButterflyRing:
+                        ButterflyRing.Update(who, location);
+                        break;
                     default:
                         // Do nothing, though we should never reach here as Unknown isn't handled
                         break;
@@ -67,6 +70,10 @@ namespace CosmeticRings.Framework
                     wornRings.Add(RingType.PetalRing);
                     PetalRing.HandleEquip(who, location);
                     break;
+                case RingType.ButterflyRing:
+                    wornRings.Add(RingType.ButterflyRing);
+                    ButterflyRing.HandleEquip(who, location);
+                    break;
                 default:
                     // Do nothing, though we should never reach here as Unknown isn't handled
                     break;
@@ -81,6 +88,28 @@ namespace CosmeticRings.Framework
                     wornRings.Remove(RingType.PetalRing);
                     PetalRing.HandleUnequip(who, location);
                     break;
+                case RingType.ButterflyRing:
+                    wornRings.Remove(RingType.ButterflyRing);
+                    ButterflyRing.HandleUnequip(who, location);
+                    break;
+                default:
+                    // Do nothing, though we should never reach here as Unknown isn't handled
+                    break;
+            }
+        }
+
+        internal static void HandleNewLocation(Farmer who, GameLocation location, string ringName)
+        {
+            switch (GetRingTypeFromName(ringName))
+            {
+                case RingType.PetalRing:
+                    wornRings.Remove(RingType.PetalRing);
+                    PetalRing.HandleEquip(who, location);
+                    break;
+                case RingType.ButterflyRing:
+                    wornRings.Remove(RingType.ButterflyRing);
+                    ButterflyRing.HandleEquip(who, location);
+                    break;
                 default:
                     // Do nothing, though we should never reach here as Unknown isn't handled
                     break;
@@ -93,6 +122,8 @@ namespace CosmeticRings.Framework
             {
                 case nameof(RingType.PetalRing):
                     return RingType.PetalRing;
+                case nameof(RingType.ButterflyRing):
+                    return RingType.ButterflyRing;
                 default:
                     return RingType.Unknown;
             }
