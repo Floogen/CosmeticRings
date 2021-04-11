@@ -186,11 +186,12 @@ namespace CosmeticRings.Framework.Critters
 
         public override void draw(SpriteBatch b)
         {
+            base.sprite.draw(b, Game1.GlobalToLocal(Game1.viewport, base.position + new Vector2(-64f, -128f + base.yJumpOffset + base.yOffset)), base.position.Y / 10000f, 0, 0, Color.White, base.flip, 4f);
         }
 
         public override void drawAboveFrontLayer(SpriteBatch b)
         {
-            base.sprite.draw(b, Game1.GlobalToLocal(Game1.viewport, base.position + new Vector2(-64f, -128f + base.yJumpOffset + base.yOffset)), base.position.Y / 10000f, 0, 0, Color.White, base.flip, 4f);
+
         }
     }
 }
