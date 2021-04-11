@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="CosmeticRings.cs" />
     <Compile Include="Framework\ApiManager.cs" />
+    <Compile Include="Framework\Critters\Petal.cs" />
     <Compile Include="Framework\Critters\ButterflyFollower.cs" />
     <Compile Include="Framework\Interfaces\IJsonAssetsApi.cs" />
     <Compile Include="Framework\Patches\RingPatch.cs" />
