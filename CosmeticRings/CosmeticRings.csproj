@@ -53,23 +53,29 @@
   <ItemGroup>
     <Compile Include="CosmeticRings.cs" />
     <Compile Include="Framework\ApiManager.cs" />
+    <Compile Include="Framework\Critters\Fairy.cs" />
     <Compile Include="Framework\Critters\Petal.cs" />
     <Compile Include="Framework\Critters\ButterflyFollower.cs" />
     <Compile Include="Framework\Interfaces\IJsonAssetsApi.cs" />
     <Compile Include="Framework\Patches\RingPatch.cs" />
+    <Compile Include="Framework\ResourceManager.cs" />
     <Compile Include="Framework\RingManager.cs" />
+    <Compile Include="Framework\Rings\FairyRing.cs" />
     <Compile Include="Framework\Rings\ButterflyRing.cs" />
     <Compile Include="Framework\Rings\PetalRing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\content-pack.json">
+    <None Include="assets\[JA] Cosmetic Rings Pack\content-pack.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="assets\Objects\ButterflyRing\object.json">
+    <None Include="assets\[JA] Cosmetic Rings Pack\Objects\ButterflyRing\object.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="assets\Objects\PetalRing\object.json">
+    <None Include="assets\[JA] Cosmetic Rings Pack\Objects\FairyRing\object.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="assets\[JA] Cosmetic Rings Pack\Objects\PetalRing\object.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="manifest.json">
@@ -78,10 +84,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\Objects\ButterflyRing\object.png">
+    <Content Include="..\..\..\Sprite Sandbox\StardewMods\CosmeticRings\Fairy.png">
+      <Link>assets\Sprites\Fairy.png</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\Objects\PetalRing\object.png">
+    <Content Include="assets\[JA] Cosmetic Rings Pack\Objects\ButterflyRing\object.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\[JA] Cosmetic Rings Pack\Objects\FairyRing\object.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\[JA] Cosmetic Rings Pack\Objects\PetalRing\object.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -25,6 +25,9 @@ namespace CosmeticRings
             monitor = Monitor;
             modHelper = helper;
 
+            // Set up our resource manager
+            ResourceManager.SetUpAssets(helper);
+
             // Load our Harmony patches
             try
             {
@@ -59,7 +62,7 @@ namespace CosmeticRings
             {
                 // Load in our ring assets
                 var jsonAssetsApi = ApiManager.GetJsonAssetsApi();
-                jsonAssetsApi.LoadAssets(Path.Combine(Helper.DirectoryPath, "assets"));
+                jsonAssetsApi.LoadAssets(Path.Combine(Helper.DirectoryPath, "assets", "[JA] Cosmetic Rings Pack"));
             }
         }
     }

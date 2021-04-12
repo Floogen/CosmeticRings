@@ -33,7 +33,6 @@ namespace CosmeticRings.Framework.Critters
         public Petal(Vector2 position, int which, float rotationVelocity, float dx, float dy)
         {
             this.position = (position * 64f) + new Vector2(Game1.random.Next(-16, 48), -96f);
-            CosmeticRings.monitor.Log(this.position.ToString(), StardewModdingAPI.LogLevel.Debug);
             this.isFlipped = Game1.random.Next(0, 2) == 1 ? true : false;
             this.which = which;
             this.dx = dx;
