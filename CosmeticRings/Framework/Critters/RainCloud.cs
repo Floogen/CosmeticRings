@@ -70,7 +70,6 @@ namespace CosmeticRings.Framework.Critters
 
             if (base.sprite.CurrentAnimation == null)
             {
-                CosmeticRings.monitor.Log("HERE", StardewModdingAPI.LogLevel.Debug);
                 base.sprite.setCurrentAnimation(new List<FarmerSprite.AnimationFrame>
                 {
                     new FarmerSprite.AnimationFrame(base.baseFrame + 1, raindropSpeed),

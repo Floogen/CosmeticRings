@@ -39,6 +39,7 @@ namespace CosmeticRings.Framework.Rings
 
         internal static void HandleNewLocation(Farmer who, GameLocation location)
         {
+            // Ensure we can force a critter to appear
             if (location.critters is null)
             {
                 location.critters = new List<Critter>();

@@ -16,8 +16,6 @@ namespace CosmeticRings.Framework.Rings
 
         internal static void HandleEquip(Farmer who, GameLocation location)
         {
-            // Spawn petals
-
             // Ensure we can force a critter to appear
             if (location.critters is null)
             {
@@ -32,12 +30,16 @@ namespace CosmeticRings.Framework.Rings
 
         internal static void HandleUnequip(Farmer who, GameLocation location)
         {
-
+            if (_rainCloud != null)
+            {
+                location.critters.Remove(_rainCloud);
+                _rainCloud = null;
+            }
         }
 
         internal static void HandleNewLocation(Farmer who, GameLocation location)
         {
-            // Spawn petals
+            // Ensure we can force a critter to appear
             if (location.critters is null)
             {
                 location.critters = new List<Critter>();

@@ -76,8 +76,6 @@ namespace CosmeticRings.Framework.Critters
             if ((this.trailTimer -= time.ElapsedGameTime.Milliseconds) <= 0 && motionMultiplier >= 1f)
             {
                 this.trailTimer = 250;
-
-                // TODO: Create fairy trail
                 environment.temporarySprites.Add(new TemporaryAnimatedSprite(11, this.position, Color.White));
             }
 
