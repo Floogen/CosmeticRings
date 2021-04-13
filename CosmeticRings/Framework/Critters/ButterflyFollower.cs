@@ -170,7 +170,7 @@ namespace CosmeticRings.Framework.Critters
             Vector2 smoothedPosition = Vector2.Lerp(this.position, targetPosition, 0.05f);
             Vector2 smoothedPositionSlow = Vector2.Lerp(this.position, targetPosition, 0.02f);
 
-            //setting up a "wander zone" where the Will'o'the'Wisp is less restricted within a defined distance of the player
+            // Setting up wander zone
             if (Vector2.Distance(targetPosition, this.position) >= 64f)
             {
                 this.position = smoothedPosition;

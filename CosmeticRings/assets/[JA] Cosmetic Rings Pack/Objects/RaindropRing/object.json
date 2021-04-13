@@ -1,6 +1,6 @@
 {
-  "Name": "PeacefulEnd.Rings.FairyRing",
-  "Description": "The gemstone faintly glows. Perhaps it will shine brighter at night?",
+  "Name": "PeacefulEnd.Rings.RaindropRing",
+  "Description": "A crystal raindrop adorns the top of the metal band.",
   "Category": "Ring",
   "Edibility": -300,
   "Price": 0,
@@ -9,6 +9,6 @@
   "PurchaseFrom": "HatMouse",
   "PurchasePrice": 100,
   "NameLocalization": {
-    "en": "Fairy Ring"
+    "en": "Raindrop Ring"
   }
 }

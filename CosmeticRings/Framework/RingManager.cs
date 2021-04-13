@@ -13,7 +13,8 @@ namespace CosmeticRings.Framework
         Unknown,
         PetalRing,
         ButterflyRing,
-        FairyRing
+        FairyRing,
+        RaindropRing
     }
 
     internal static class RingManager
@@ -59,6 +60,9 @@ namespace CosmeticRings.Framework
                     case RingType.FairyRing:
                         FairyRing.Update(who, location);
                         break;
+                    case RingType.RaindropRing:
+                        RaindropRing.Update(who, location);
+                        break;
                     default:
                         // Do nothing, though we should never reach here as Unknown isn't handled
                         break;
@@ -79,8 +83,12 @@ namespace CosmeticRings.Framework
                     ButterflyRing.HandleEquip(who, location);
                     break;
                 case RingType.FairyRing:
-                    wornRings.Add(RingType.ButterflyRing);
+                    wornRings.Add(RingType.FairyRing);
                     FairyRing.HandleEquip(who, location);
+                    break;
+                case RingType.RaindropRing:
+                    wornRings.Add(RingType.RaindropRing);
+                    RaindropRing.HandleEquip(who, location);
                     break;
                 default:
                     // Do nothing, though we should never reach here as Unknown isn't handled
@@ -104,6 +112,10 @@ namespace CosmeticRings.Framework
                     wornRings.Remove(RingType.FairyRing);
                     FairyRing.HandleUnequip(who, location);
                     break;
+                case RingType.RaindropRing:
+                    wornRings.Remove(RingType.RaindropRing);
+                    RaindropRing.HandleUnequip(who, location);
+                    break;
                 default:
                     // Do nothing, though we should never reach here as Unknown isn't handled
                     break;
@@ -123,6 +135,9 @@ namespace CosmeticRings.Framework
                 case RingType.FairyRing:
                     FairyRing.HandleNewLocation(who, location);
                     break;
+                case RingType.RaindropRing:
+                    RaindropRing.HandleNewLocation(who, location);
+                    break;
                 default:
                     // Do nothing, though we should never reach here as Unknown isn't handled
                     break;
@@ -139,6 +154,8 @@ namespace CosmeticRings.Framework
                     return RingType.ButterflyRing;
                 case nameof(RingType.FairyRing):
                     return RingType.FairyRing;
+                case nameof(RingType.RaindropRing):
+                    return RingType.RaindropRing;
                 default:
                     return RingType.Unknown;
             }
