@@ -12,18 +12,20 @@ namespace CosmeticRings.Framework.Critters
 {
     internal class Fairy : Critter
     {
-        internal bool summerButterfly;
-
-        private int flutterTimer;
-        private int checkForLandingSpotTimer;
-        private bool hasLanded;
-        private int flapSpeed = 50;
+        private bool glowing;
+        private int trailTimer;
+        private int burstTimer;
+        private float elapsedTime;
+        private int id;
         private Vector2 motion;
-        private float motionMultiplier = 1f;
-        public bool stayInbounds;
-
+        private float motionMultiplier;
+        internal LightSource light;
         private float spawnOffsetY;
         private float spawnOffsetX;
+
+        public Fairy()
+        {
+        }
 
         public Fairy(Vector2 position)
         {
@@ -31,109 +33,52 @@ namespace CosmeticRings.Framework.Critters
             spawnOffsetX = 20f + (Game1.random.Next(0, 2) * 64f);
             spawnOffsetY = 30f + Game1.random.Next(0, 5);
 
+            base.baseFrame = -1;
             base.position = position * 64f;
-            base.startingPosition = base.position;
+            base.startingPosition = position * 64f;
+            this.motion = new Vector2((float)Game1.random.Next(-10, 11) * 0.1f, (float)Game1.random.Next(-10, 11) * 0.1f);
+            this.motionMultiplier = 1f;
+            this.id = (int)(position.X * 10099f + position.Y * 77f + (float)Game1.random.Next(99999));
+            this.light = new LightSource(4, position, 0.2f, Color.Red, this.id, LightSource.LightContext.None, 0L);
+            this.glowing = true;
+            Game1.currentLightSources.Add(this.light);
 
-            base.baseFrame = 0;
-
-            this.motion = new Vector2((float)(Game1.random.NextDouble() + 0.25) * 3f * (float)((!(Game1.random.NextDouble() < 0.5)) ? 1 : (-1)) / 2f, (float)(Game1.random.NextDouble() + 0.5) * 3f * (float)((!(Game1.random.NextDouble() < 0.5)) ? 1 : (-1)) / 2f);
-            this.flapSpeed = Game1.random.Next(45, 80);
-            base.sprite = new AnimatedSprite(ResourceManager.fairyTexturePath, base.baseFrame, 16, 16);
-            base.sprite.loop = false;
-            base.startingPosition = position;
-
-            this.checkForLandingSpotTimer = 2000;
+            this.burstTimer = Game1.random.Next(1000, 8000);
+            this.trailTimer = 250;
         }
 
         internal void resetForNewLocation(Vector2 position)
         {
             base.position = position * 64f;
             base.startingPosition = base.position;
-        }
-
-        internal void doneWithFlap(Farmer who)
-        {
-            this.flutterTimer = 200 + Game1.random.Next(-5, 6);
-        }
-
-        internal void performFlap(GameTime time, bool applyMotion, bool overrideAnimation = false)
-        {
-            this.flutterTimer -= time.ElapsedGameTime.Milliseconds;
-            if (this.flutterTimer <= 0 && (base.sprite.CurrentAnimation == null || overrideAnimation))
-            {
-                base.sprite.setCurrentAnimation(new List<FarmerSprite.AnimationFrame>
-                    {
-                        new FarmerSprite.AnimationFrame(base.baseFrame + 1, this.flapSpeed),
-                        new FarmerSprite.AnimationFrame(base.baseFrame + 2, this.flapSpeed),
-                        new FarmerSprite.AnimationFrame(base.baseFrame + 3, this.flapSpeed),
-                        new FarmerSprite.AnimationFrame(base.baseFrame + 2, this.flapSpeed),
-                        new FarmerSprite.AnimationFrame(base.baseFrame + 1, this.flapSpeed),
-                        new FarmerSprite.AnimationFrame(base.baseFrame, this.flapSpeed, secondaryArm: false, flip: false, doneWithFlap)
-                    });
-
-                if (applyMotion)
-                {
-                    this.motionMultiplier = 1f;
-                    this.motion.X += (float)Game1.random.Next(-80, 81) / 100f;
-                    this.motion.Y = (float)(Game1.random.NextDouble() + 0.25) * -3f / 2f;
-                    if (Math.Abs(this.motion.X) > 1.5f)
-                    {
-                        this.motion.X = 3f * (float)Math.Sign(this.motion.X) / 2f;
-                    }
-                    if (Math.Abs(this.motion.Y) > 3f)
-                    {
-                        this.motion.Y = 3f * (float)Math.Sign(this.motion.Y);
-                    }
-                }
-            }
-
-            if (applyMotion)
-            {
-                base.position += this.motion * this.motionMultiplier;
-                this.motion.Y += 0.005f * (float)time.ElapsedGameTime.Milliseconds;
-                this.motionMultiplier -= 0.0005f * (float)time.ElapsedGameTime.Milliseconds;
-                if (this.motionMultiplier <= 0f)
-                {
-                    this.motionMultiplier = 0f;
-                }
-            }
+            Game1.currentLightSources.Add(this.light);
         }
 
         public override bool update(GameTime time, GameLocation environment)
         {
-            this.checkForLandingSpotTimer = Game1.player.isMoving() ? Game1.random.Next(5000, 10000) : checkForLandingSpotTimer - time.ElapsedGameTime.Milliseconds;
-            if (this.checkForLandingSpotTimer <= 0)
+            //this.light.radius.Value = (float)((Math.Sin(time.TotalGameTime.Milliseconds / 1000f) + 1f) * 0.5f);
+            this.light.radius.Value = 0.1f * (2.5f + (float)Math.Sin(2 * Math.PI * elapsedTime));
+            elapsedTime = (elapsedTime + (float)time.ElapsedGameTime.TotalMilliseconds / 3000) % 1;
+
+            this.burstTimer -= time.ElapsedGameTime.Milliseconds;
+            if (this.burstTimer <= 0)
             {
-                performFlap(time, false);
-
-                if (Vector2.Distance(Game1.player.position + new Vector2(64f, 32f), this.position) <= 2f && !this.hasLanded)
-                {
-                    this.hasLanded = true;
-                    this.flapSpeed = Game1.random.Next(550, 1000);
-                }
-                else
-                {
-                    this.position = Vector2.Lerp(this.position, Game1.player.position + new Vector2(64f, 32f), 0.02f);
-                }
-
-                return base.update(time, environment);
-            }
-
-            if (this.hasLanded)
-            {
-                this.hasLanded = false;
-                this.flapSpeed = Game1.random.Next(45, 80);
-                performFlap(time, true, true);
+                motionMultiplier = 5f;
+                this.burstTimer = Game1.random.Next(1000, 8000);
             }
 
             if (Game1.player.isMoving())
             {
                 spawnOffsetX = Game1.player.position.X + spawnOffsetX < this.position.X ? 84f : 20f;
-                this.flapSpeed = Math.Max(35, flapSpeed - 1);
+                this.motionMultiplier = 1f;
             }
-            else if (this.flapSpeed == 35)
+
+            if ((this.trailTimer -= time.ElapsedGameTime.Milliseconds) <= 0 && motionMultiplier >= 1f)
             {
-                this.flapSpeed = Game1.random.Next(45, 80);
+                this.trailTimer = 250;
+
+                // TODO: Create fairy trail
+                environment.temporarySprites.Add(new TemporaryAnimatedSprite(11, this.position, Color.White));
             }
 
             Vector2 targetPosition = Game1.player.position + new Vector2(spawnOffsetX, spawnOffsetY);
@@ -141,7 +86,7 @@ namespace CosmeticRings.Framework.Critters
             Vector2 smoothedPositionSlow = Vector2.Lerp(this.position, targetPosition, 0.02f);
 
             //setting up a "wander zone" where the Will'o'the'Wisp is less restricted within a defined distance of the player
-            if (Vector2.Distance(targetPosition, this.position) >= 64f)
+            if (Vector2.Distance(targetPosition, this.position) >= 64f && Game1.player.isMoving())
             {
                 this.position = smoothedPosition;
             }
@@ -150,13 +95,42 @@ namespace CosmeticRings.Framework.Critters
                 this.position = smoothedPositionSlow;
             }
 
-            performFlap(time, true);
-            return base.update(time, environment);
+            base.position += this.motion * this.motionMultiplier;
+            this.motionMultiplier -= 0.0005f * (float)time.ElapsedGameTime.Milliseconds;
+            if (this.motionMultiplier <= 0f)
+            {
+                this.motionMultiplier = 1f;
+            }
+
+            this.motion.X += (float)Game1.random.Next(-1, 2) * 0.1f;
+            this.motion.Y += (float)Game1.random.Next(-1, 2) * 0.1f;
+            if (this.motion.X < -1f)
+            {
+                this.motion.X = -1f;
+            }
+            if (this.motion.X > 1f)
+            {
+                this.motion.X = 1f;
+            }
+            if (this.motion.Y < -1f)
+            {
+                this.motion.Y = -1f;
+            }
+            if (this.motion.Y > 1f)
+            {
+                this.motion.Y = 1f;
+            }
+            if (this.glowing)
+            {
+                this.light.position.Value = base.position;
+            }
+
+            return false;
         }
 
         public override void draw(SpriteBatch b)
         {
-            base.sprite.draw(b, Game1.GlobalToLocal(Game1.viewport, base.position + new Vector2(-64f, -128f + base.yJumpOffset + base.yOffset)), base.position.Y / 10000f, 0, 0, Color.White, base.flip, 4f);
+            b.Draw(Game1.staminaRect, Game1.GlobalToLocal(base.position), Game1.staminaRect.Bounds, Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, base.position.Y / 10000f);
         }
 
         public override void drawAboveFrontLayer(SpriteBatch b)

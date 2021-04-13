@@ -32,6 +32,7 @@ namespace CosmeticRings.Framework.Rings
         {
             if (_fairy != null)
             {
+                Game1.currentLightSources.Remove(_fairy.light);
                 location.critters.Remove(_fairy);
                 _fairy = null;
             }
