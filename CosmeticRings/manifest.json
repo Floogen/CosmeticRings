@@ -6,7 +6,7 @@
   "UniqueID": "PeacefulEnd.CosmeticRings",
   "EntryDll": "CosmeticRings.dll",
   "MinimumApiVersion": "3.0.0",
-  "UpdateKeys": [ "Nexus:????" ],
+  "UpdateKeys": [ "Nexus:8522" ],
   "Dependencies": [
     {
       "UniqueID": "spacechase0.JsonAssets",
