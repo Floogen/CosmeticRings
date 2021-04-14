@@ -32,7 +32,7 @@ namespace CosmeticRings.Framework.Patches
         {
             if (RingManager.IsCosmeticRing(__instance.Name))
             {
-                RingManager.HandleEquip(who, location, __instance.Name);
+                RingManager.HandleEquip(who, location, __instance);
             }
         }
 
@@ -40,7 +40,7 @@ namespace CosmeticRings.Framework.Patches
         {
             if (RingManager.IsCosmeticRing(__instance.Name))
             {
-                RingManager.HandleUnequip(who, location, __instance.Name);
+                RingManager.HandleUnequip(who, location, __instance);
             }
         }
 
@@ -48,7 +48,7 @@ namespace CosmeticRings.Framework.Patches
         {
             if (RingManager.IsCosmeticRing(__instance.Name))
             {
-                RingManager.HandleNewLocation(who, environment, __instance.Name);
+                RingManager.HandleNewLocation(who, environment, __instance);
             }
         }
 
@@ -56,7 +56,7 @@ namespace CosmeticRings.Framework.Patches
         {
             if (RingManager.IsCosmeticRing(__instance.Name))
             {
-                RingManager.HandleLeaveLocation(who, environment, __instance.Name);
+                RingManager.HandleLeaveLocation(who, environment, __instance);
             }
         }
     }

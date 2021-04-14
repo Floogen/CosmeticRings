@@ -1,5 +1,6 @@
 ﻿using CosmeticRings.Framework.Rings;
 using StardewValley;
+using StardewValley.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace CosmeticRings.Framework
     internal static class RingManager
     {
         private static readonly string _ringNamePrefix = "PeacefulEnd.Rings";
-        internal static List<RingType> wornRings = new List<RingType>();
+        internal static List<CustomRing> wornCustomRings = new List<CustomRing>();
 
         internal static List<string> GetRingNames()
         {
@@ -42,161 +43,77 @@ namespace CosmeticRings.Framework
 
         internal static bool HasCosmeticRingEquipped(Farmer who)
         {
-            return wornRings.Any();
+            return wornCustomRings.Any();
         }
 
         internal static void UpdateRingEffects(Farmer who, GameLocation location)
         {
-            foreach (RingType ringType in wornRings)
+            foreach (CustomRing ring in wornCustomRings)
             {
-                switch (ringType)
-                {
-                    case RingType.PetalRing:
-                        PetalRing.Update(who, location);
-                        break;
-                    case RingType.ButterflyRing:
-                        ButterflyRing.Update(who, location);
-                        break;
-                    case RingType.FairyRing:
-                        FairyRing.Update(who, location);
-                        break;
-                    case RingType.RaindropRing:
-                        RaindropRing.Update(who, location);
-                        break;
-                    case RingType.BunnyRing:
-                        BunnyRing.Update(who, location);
-                        break;
-                    case RingType.JunimoRing:
-                        JunimoRing.Update(who, location);
-                        break;
-                    default:
-                        // Do nothing, though we should never reach here as Unknown isn't handled
-                        break;
-                }
+                ring.Update(who, location);
             }
         }
 
-        internal static void HandleEquip(Farmer who, GameLocation location, string ringName)
+        internal static void HandleEquip(Farmer who, GameLocation location, Ring ring)
         {
-            switch (GetRingTypeFromName(ringName))
+            CustomRing customRing = null;
+            switch (GetRingTypeFromName(ring.Name))
             {
                 case RingType.PetalRing:
-                    wornRings.Add(RingType.PetalRing);
-                    PetalRing.HandleEquip(who, location);
+                    customRing = new PetalRing(ring);
                     break;
                 case RingType.ButterflyRing:
-                    wornRings.Add(RingType.ButterflyRing);
-                    ButterflyRing.HandleEquip(who, location);
+                    customRing = new ButterflyRing(ring);
                     break;
                 case RingType.FairyRing:
-                    wornRings.Add(RingType.FairyRing);
-                    FairyRing.HandleEquip(who, location);
+                    customRing = new FairyRing(ring);
                     break;
                 case RingType.RaindropRing:
-                    wornRings.Add(RingType.RaindropRing);
-                    RaindropRing.HandleEquip(who, location);
+                    customRing = new RaindropRing(ring);
                     break;
                 case RingType.BunnyRing:
-                    wornRings.Add(RingType.BunnyRing);
-                    BunnyRing.HandleEquip(who, location);
+                    customRing = new BunnyRing(ring);
                     break;
                 case RingType.JunimoRing:
-                    wornRings.Add(RingType.JunimoRing);
-                    JunimoRing.HandleEquip(who, location);
+                    customRing = new JunimoRing(ring);
                     break;
                 default:
                     // Do nothing, though we should never reach here as Unknown isn't handled
                     break;
             }
-        }
 
-        internal static void HandleUnequip(Farmer who, GameLocation location, string ringName)
-        {
-            switch (GetRingTypeFromName(ringName))
+            if (customRing != null)
             {
-                case RingType.PetalRing:
-                    wornRings.Remove(RingType.PetalRing);
-                    PetalRing.HandleUnequip(who, location);
-                    break;
-                case RingType.ButterflyRing:
-                    wornRings.Remove(RingType.ButterflyRing);
-                    ButterflyRing.HandleUnequip(who, location);
-                    break;
-                case RingType.FairyRing:
-                    wornRings.Remove(RingType.FairyRing);
-                    FairyRing.HandleUnequip(who, location);
-                    break;
-                case RingType.RaindropRing:
-                    wornRings.Remove(RingType.RaindropRing);
-                    RaindropRing.HandleUnequip(who, location);
-                    break;
-                case RingType.BunnyRing:
-                    wornRings.Remove(RingType.BunnyRing);
-                    BunnyRing.HandleUnequip(who, location);
-                    break;
-                case RingType.JunimoRing:
-                    wornRings.Remove(RingType.JunimoRing);
-                    JunimoRing.HandleUnequip(who, location);
-                    break;
-                default:
-                    // Do nothing, though we should never reach here as Unknown isn't handled
-                    break;
+                customRing.HandleEquip(who, location);
+                wornCustomRings.Add(customRing);
             }
         }
 
-        internal static void HandleNewLocation(Farmer who, GameLocation location, string ringName)
+        internal static void HandleUnequip(Farmer who, GameLocation location, Ring ring)
         {
-            switch (GetRingTypeFromName(ringName))
+            CustomRing customRing = wornCustomRings.FirstOrDefault(r => r.RingObject == ring);
+            if (customRing != null)
             {
-                case RingType.PetalRing:
-                    PetalRing.HandleNewLocation(who, location);
-                    break;
-                case RingType.ButterflyRing:
-                    ButterflyRing.HandleNewLocation(who, location);
-                    break;
-                case RingType.FairyRing:
-                    FairyRing.HandleNewLocation(who, location);
-                    break;
-                case RingType.RaindropRing:
-                    RaindropRing.HandleNewLocation(who, location);
-                    break;
-                case RingType.BunnyRing:
-                    BunnyRing.HandleNewLocation(who, location);
-                    break;
-                case RingType.JunimoRing:
-                    JunimoRing.HandleNewLocation(who, location);
-                    break;
-                default:
-                    // Do nothing, though we should never reach here as Unknown isn't handled
-                    break;
+                customRing.HandleUnequip(who, location);
+                wornCustomRings.Remove(customRing);
             }
         }
 
-        internal static void HandleLeaveLocation(Farmer who, GameLocation location, string ringName)
+        internal static void HandleNewLocation(Farmer who, GameLocation location, Ring ring)
         {
-            switch (GetRingTypeFromName(ringName))
+            CustomRing customRing = wornCustomRings.FirstOrDefault(r => r.RingObject == ring);
+            if (customRing != null)
             {
-                case RingType.PetalRing:
-                    PetalRing.HandleLeaveLocation(who, location);
-                    break;
-                case RingType.ButterflyRing:
-                    ButterflyRing.HandleLeaveLocation(who, location);
-                    break;
-                case RingType.FairyRing:
-                    FairyRing.HandleLeaveLocation(who, location);
-                    break;
-                case RingType.RaindropRing:
-                    RaindropRing.HandleLeaveLocation(who, location);
-                    break;
-                case RingType.BunnyRing:
-                    BunnyRing.HandleLeaveLocation(who, location);
-                    break;
-                case RingType.JunimoRing:
-                    JunimoRing.HandleLeaveLocation(who, location);
-                    break;
-                default:
-                    // Do nothing, though we should never reach here as Unknown isn't handled
-                    break;
+                customRing.HandleNewLocation(who, location);
+            }
+        }
+
+        internal static void HandleLeaveLocation(Farmer who, GameLocation location, Ring ring)
+        {
+            CustomRing customRing = wornCustomRings.FirstOrDefault(r => r.RingObject == ring);
+            if (customRing != null)
+            {
+                customRing.HandleLeaveLocation(who, location);
             }
         }
 

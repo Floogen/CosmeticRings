@@ -63,6 +63,7 @@
     <Compile Include="Framework\Patches\RingPatch.cs" />
     <Compile Include="Framework\ResourceManager.cs" />
     <Compile Include="Framework\RingManager.cs" />
+    <Compile Include="Framework\Rings\CustomRing.cs" />
     <Compile Include="Framework\Rings\JunimoRing.cs" />
     <Compile Include="Framework\Rings\FairyRing.cs" />
     <Compile Include="Framework\Rings\ButterflyRing.cs" />

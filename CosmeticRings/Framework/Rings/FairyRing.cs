@@ -10,11 +10,18 @@ using System.Threading.Tasks;
 
 namespace CosmeticRings.Framework.Rings
 {
-    internal static class FairyRing
+    internal class FairyRing : CustomRing
     {
-        private static Fairy _fairy;
+        private Fairy _fairy;
 
-        internal static void HandleEquip(Farmer who, GameLocation location)
+        internal override Ring RingObject { get; }
+
+        internal FairyRing(Ring pairedRing)
+        {
+            RingObject = pairedRing;
+        }
+
+        internal override void HandleEquip(Farmer who, GameLocation location)
         {
             // Ensure we can force a critter to appear
             if (location.critters is null)
@@ -28,7 +35,7 @@ namespace CosmeticRings.Framework.Rings
             location.critters.Add(_fairy);
         }
 
-        internal static void HandleUnequip(Farmer who, GameLocation location)
+        internal override void HandleUnequip(Farmer who, GameLocation location)
         {
             if (_fairy != null)
             {
@@ -38,7 +45,7 @@ namespace CosmeticRings.Framework.Rings
             }
         }
 
-        internal static void HandleNewLocation(Farmer who, GameLocation location)
+        internal override void HandleNewLocation(Farmer who, GameLocation location)
         {
             // Ensure we can force a critter to appear
             if (location.critters is null)
@@ -56,12 +63,12 @@ namespace CosmeticRings.Framework.Rings
             location.critters.Add(_fairy);
         }
 
-        internal static void HandleLeaveLocation(Farmer who, GameLocation location)
+        internal override void HandleLeaveLocation(Farmer who, GameLocation location)
         {
 
         }
 
-        internal static void Update(Farmer who, GameLocation location)
+        internal override void Update(Farmer who, GameLocation location)
         {
             // Do nothing
         }

@@ -10,11 +10,18 @@ using System.Threading.Tasks;
 
 namespace CosmeticRings.Framework.Rings
 {
-    internal static class BunnyRing
+    internal class BunnyRing : CustomRing
     {
-        private static BunnyFollower _bunny;
+        private BunnyFollower _bunny;
 
-        internal static void HandleEquip(Farmer who, GameLocation location)
+        internal override Ring RingObject { get; }
+
+        internal BunnyRing(Ring pairedRing)
+        {
+            RingObject = pairedRing;
+        }
+
+        internal override void HandleEquip(Farmer who, GameLocation location)
         {
             // Ensure we can force a character to appear
             if (location.characters is null)
@@ -28,7 +35,7 @@ namespace CosmeticRings.Framework.Rings
             location.characters.Add(_bunny);
         }
 
-        internal static void HandleUnequip(Farmer who, GameLocation location)
+        internal override void HandleUnequip(Farmer who, GameLocation location)
         {
             if (_bunny != null)
             {
@@ -37,7 +44,7 @@ namespace CosmeticRings.Framework.Rings
             }
         }
 
-        internal static void HandleNewLocation(Farmer who, GameLocation location)
+        internal override void HandleNewLocation(Farmer who, GameLocation location)
         {
             // Ensure we can force a character to appear
             if (location.characters is null)
@@ -55,7 +62,7 @@ namespace CosmeticRings.Framework.Rings
             location.characters.Add(_bunny);
         }
 
-        internal static void HandleLeaveLocation(Farmer who, GameLocation location)
+        internal override void HandleLeaveLocation(Farmer who, GameLocation location)
         {
             if (_bunny != null)
             {
@@ -63,7 +70,7 @@ namespace CosmeticRings.Framework.Rings
             }
         }
 
-        internal static void Update(Farmer who, GameLocation location)
+        internal override void Update(Farmer who, GameLocation location)
         {
 
         }
