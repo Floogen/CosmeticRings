@@ -22,8 +22,6 @@ namespace CosmeticRings.Framework
     internal static class RingManager
     {
         private static readonly string _ringNamePrefix = "PeacefulEnd.Rings";
-
-        // TODO: Need to reset this on DayStarted, grab player's current rings
         internal static List<RingType> wornRings = new List<RingType>();
 
         internal static List<string> GetRingNames()
