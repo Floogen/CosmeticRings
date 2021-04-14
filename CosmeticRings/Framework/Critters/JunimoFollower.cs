@@ -108,7 +108,14 @@ namespace CosmeticRings.Framework.Critters
                 jumpTimer -= time.ElapsedGameTime.Milliseconds;
                 if (Vector2.Distance(base.Position, f.Position) > 640f)
                 {
-                    this.jump();
+                    if (Game1.random.NextDouble() < 0.25)
+                    {
+                        this.jump();
+                    }
+                    else
+                    {
+                        this.jumpWithoutSound(Game1.random.Next(6, 9));
+                    }
                     base.position.Value = f.position;
                 }
                 else if (Vector2.Distance(base.Position, f.Position) > 64f)
