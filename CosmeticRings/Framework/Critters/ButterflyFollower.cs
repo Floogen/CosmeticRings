@@ -19,6 +19,7 @@ namespace CosmeticRings.Framework.Critters
         private bool hasLanded;
         private int flapSpeed = 50;
         private Vector2 motion;
+        private Vector2 landingSpot;
         private float motionMultiplier = 1f;
         public bool stayInbounds;
 
@@ -60,6 +61,8 @@ namespace CosmeticRings.Framework.Critters
             base.startingPosition = position;
 
             this.checkForLandingSpotTimer = 2000;
+
+            landingSpot = new Vector2(Game1.random.Next(56, 73), Game1.random.Next(28, 37));
         }
 
         internal void resetForNewLocation(Vector2 position)
@@ -136,14 +139,14 @@ namespace CosmeticRings.Framework.Critters
             {
                 performFlap(time, false);
 
-                if (Vector2.Distance(Game1.player.position + new Vector2(64f, 32f), this.position) <= 2f && !this.hasLanded)
+                if (Vector2.Distance(Game1.player.position + landingSpot, this.position) <= 2f && !this.hasLanded)
                 {
                     this.hasLanded = true;
                     this.flapSpeed = Game1.random.Next(550, 1000);
                 }
                 else
                 {
-                    this.position = Vector2.Lerp(this.position, Game1.player.position + new Vector2(64f, 32f), 0.02f);
+                    this.position = Vector2.Lerp(this.position, Game1.player.position + landingSpot, 0.02f);
                 }
 
                 return base.update(time, environment);

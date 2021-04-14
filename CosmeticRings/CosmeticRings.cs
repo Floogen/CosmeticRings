@@ -5,6 +5,7 @@ using Harmony;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using StardewValley.Objects;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,6 +19,8 @@ namespace CosmeticRings
     {
         internal static IMonitor monitor;
         internal static IModHelper modHelper;
+
+        private IWearMoreRingsApi wearMoreRingsApi;
 
         public override void Entry(IModHelper helper)
         {
@@ -44,7 +47,20 @@ namespace CosmeticRings
 
             // Hook into GameLoop events
             helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
+            helper.Events.GameLoop.SaveLoaded += this.OnSaveLoaded;
             helper.Events.GameLoop.OneSecondUpdateTicked += this.OnOneSecondUpdateTicked;
+        }
+
+        private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
+        {
+            if (wearMoreRingsApi != null)
+            {
+                RingManager.LoadWornRings(Game1.player, Game1.currentLocation, wearMoreRingsApi.GetAllRings(Game1.player));
+            }
+            else
+            {
+                RingManager.LoadWornRings(Game1.player, Game1.currentLocation, new List<Ring>() { Game1.player.leftRing, Game1.player.rightRing });
+            }
         }
 
         private void OnOneSecondUpdateTicked(object sender, OneSecondUpdateTickedEventArgs e)
@@ -63,6 +79,11 @@ namespace CosmeticRings
                 // Load in our ring assets
                 var jsonAssetsApi = ApiManager.GetJsonAssetsApi();
                 jsonAssetsApi.LoadAssets(Path.Combine(Helper.DirectoryPath, "assets", "[JA] Cosmetic Rings Pack"));
+            }
+
+            if (Helper.ModRegistry.IsLoaded("bcmpinc.WearMoreRings") && ApiManager.HookIntoIWMR(Helper))
+            {
+                wearMoreRingsApi = ApiManager.GetIWMRApi();
             }
         }
     }

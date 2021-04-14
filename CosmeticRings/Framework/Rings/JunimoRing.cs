@@ -20,6 +20,7 @@ namespace CosmeticRings.Framework.Rings
         {
             RingObject = pairedRing;
         }
+
         internal override void HandleEquip(Farmer who, GameLocation location)
         {
             // Ensure we can force a character to appear

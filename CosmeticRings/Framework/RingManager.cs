@@ -46,15 +46,16 @@ namespace CosmeticRings.Framework
             return wornCustomRings.Any();
         }
 
-        internal static void UpdateRingEffects(Farmer who, GameLocation location)
+        internal static void LoadWornRings(Farmer who, GameLocation location, IEnumerable<Ring> rings)
         {
-            foreach (CustomRing ring in wornCustomRings)
+            wornCustomRings = new List<CustomRing>();
+            foreach (Ring ring in rings.Where(r => IsCosmeticRing(r.Name)))
             {
-                ring.Update(who, location);
+                HandleEquip(who, location, ring);
             }
         }
 
-        internal static void HandleEquip(Farmer who, GameLocation location, Ring ring)
+        internal static CustomRing CreateCustomRing(Ring ring)
         {
             CustomRing customRing = null;
             switch (GetRingTypeFromName(ring.Name))
@@ -82,6 +83,20 @@ namespace CosmeticRings.Framework
                     break;
             }
 
+            return customRing;
+        }
+
+        internal static void UpdateRingEffects(Farmer who, GameLocation location)
+        {
+            foreach (CustomRing ring in wornCustomRings)
+            {
+                ring.Update(who, location);
+            }
+        }
+
+        internal static void HandleEquip(Farmer who, GameLocation location, Ring ring)
+        {
+            CustomRing customRing = CreateCustomRing(ring);
             if (customRing != null)
             {
                 customRing.HandleEquip(who, location);
@@ -101,6 +116,7 @@ namespace CosmeticRings.Framework
 
         internal static void HandleNewLocation(Farmer who, GameLocation location, Ring ring)
         {
+            // This will handle save loading
             CustomRing customRing = wornCustomRings.FirstOrDefault(r => r.RingObject == ring);
             if (customRing != null)
             {
