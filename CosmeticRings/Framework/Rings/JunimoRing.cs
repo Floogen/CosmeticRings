@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace CosmeticRings.Framework.Rings
 {
-    internal static class BunnyRing
+    internal static class JunimoRing
     {
-        private static BunnyFollower _bunny;
+        private static JunimoFollower _junimoFollower;
 
         internal static void HandleEquip(Farmer who, GameLocation location)
         {
@@ -22,18 +22,18 @@ namespace CosmeticRings.Framework.Rings
                 return;
             }
 
-            // Spawn rabbit
-            _bunny = new BunnyFollower(who.getTileLocation());
+            // Spawn Junimo
+            _junimoFollower = new JunimoFollower(who.getTileLocation());
 
-            location.characters.Add(_bunny);
+            location.characters.Add(_junimoFollower);
         }
 
         internal static void HandleUnequip(Farmer who, GameLocation location)
         {
-            if (_bunny != null)
+            if (_junimoFollower != null)
             {
-                location.characters.Remove(_bunny);
-                _bunny = null;
+                location.characters.Remove(_junimoFollower);
+                _junimoFollower = null;
             }
         }
 
@@ -45,21 +45,21 @@ namespace CosmeticRings.Framework.Rings
                 return;
             }
 
-            // Spawn rabbit
-            if (_bunny is null)
+            // Spawn Junimo
+            if (_junimoFollower is null)
             {
-                _bunny = new BunnyFollower(who.getTileLocation());
+                _junimoFollower = new JunimoFollower(who.getTileLocation());
             }
 
-            _bunny.resetForNewLocation(who.getTileLocation());
-            location.characters.Add(_bunny);
+            _junimoFollower.resetForNewLocation(who.getTileLocation());
+            location.characters.Add(_junimoFollower);
         }
 
         internal static void HandleLeaveLocation(Farmer who, GameLocation location)
         {
-            if (_bunny != null)
+            if (_junimoFollower != null)
             {
-                location.characters.Remove(_bunny);
+                location.characters.Remove(_junimoFollower);
             }
         }
 

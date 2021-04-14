@@ -15,7 +15,8 @@ namespace CosmeticRings.Framework
         ButterflyRing,
         FairyRing,
         RaindropRing,
-        BunnyRing
+        BunnyRing,
+        JunimoRing
     }
 
     internal static class RingManager
@@ -67,6 +68,9 @@ namespace CosmeticRings.Framework
                     case RingType.BunnyRing:
                         BunnyRing.Update(who, location);
                         break;
+                    case RingType.JunimoRing:
+                        JunimoRing.Update(who, location);
+                        break;
                     default:
                         // Do nothing, though we should never reach here as Unknown isn't handled
                         break;
@@ -98,6 +102,10 @@ namespace CosmeticRings.Framework
                     wornRings.Add(RingType.BunnyRing);
                     BunnyRing.HandleEquip(who, location);
                     break;
+                case RingType.JunimoRing:
+                    wornRings.Add(RingType.JunimoRing);
+                    JunimoRing.HandleEquip(who, location);
+                    break;
                 default:
                     // Do nothing, though we should never reach here as Unknown isn't handled
                     break;
@@ -128,6 +136,10 @@ namespace CosmeticRings.Framework
                     wornRings.Remove(RingType.BunnyRing);
                     BunnyRing.HandleUnequip(who, location);
                     break;
+                case RingType.JunimoRing:
+                    wornRings.Remove(RingType.JunimoRing);
+                    JunimoRing.HandleUnequip(who, location);
+                    break;
                 default:
                     // Do nothing, though we should never reach here as Unknown isn't handled
                     break;
@@ -152,6 +164,9 @@ namespace CosmeticRings.Framework
                     break;
                 case RingType.BunnyRing:
                     BunnyRing.HandleNewLocation(who, location);
+                    break;
+                case RingType.JunimoRing:
+                    JunimoRing.HandleNewLocation(who, location);
                     break;
                 default:
                     // Do nothing, though we should never reach here as Unknown isn't handled
@@ -178,6 +193,9 @@ namespace CosmeticRings.Framework
                 case RingType.BunnyRing:
                     BunnyRing.HandleLeaveLocation(who, location);
                     break;
+                case RingType.JunimoRing:
+                    JunimoRing.HandleLeaveLocation(who, location);
+                    break;
                 default:
                     // Do nothing, though we should never reach here as Unknown isn't handled
                     break;
@@ -198,6 +216,8 @@ namespace CosmeticRings.Framework
                     return RingType.RaindropRing;
                 case nameof(RingType.BunnyRing):
                     return RingType.BunnyRing;
+                case nameof(RingType.JunimoRing):
+                    return RingType.JunimoRing;
                 default:
                     return RingType.Unknown;
             }

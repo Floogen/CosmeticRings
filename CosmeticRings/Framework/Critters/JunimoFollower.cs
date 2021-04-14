@@ -11,13 +11,15 @@ using System.Threading.Tasks;
 
 namespace CosmeticRings.Framework.Critters
 {
-    internal class BunnyFollower : NPC
+    internal class JunimoFollower : NPC
     {
         private int jumpTimer;
         private readonly NetVector2 motion = new NetVector2(Vector2.Zero);
         private new readonly NetRectangle nextPosition = new NetRectangle();
+        private readonly NetColor color = new NetColor();
 
-        public BunnyFollower(Vector2 position) : base(new AnimatedSprite("Animals\\Rabbit", 0, 16, 16), position * 64f, 2, "BunnyFollower")
+
+        public JunimoFollower(Vector2 position) : base(new AnimatedSprite("Characters\\Junimo", 0, 16, 16), position * 64f, 2, "JunimoFollower")
         {
             base.Breather = false;
             base.speed = 5;
@@ -25,7 +27,73 @@ namespace CosmeticRings.Framework.Critters
             base.collidesWithOtherCharacters.Value = false;
             base.farmerPassesThrough = true;
             base.HideShadow = true;
+            base.Scale = 0.75f;
             this.nextPosition.Value = this.GetBoundingBox();
+
+            if (Game1.random.NextDouble() < 0.25)
+            {
+                switch (Game1.random.Next(8))
+                {
+                    case 0:
+                        this.color.Value = Color.Red;
+                        break;
+                    case 1:
+                        this.color.Value = Color.Goldenrod;
+                        break;
+                    case 2:
+                        this.color.Value = Color.Yellow;
+                        break;
+                    case 3:
+                        this.color.Value = Color.Lime;
+                        break;
+                    case 4:
+                        this.color.Value = new Color(0, 255, 180);
+                        break;
+                    case 5:
+                        this.color.Value = new Color(0, 100, 255);
+                        break;
+                    case 6:
+                        this.color.Value = Color.MediumPurple;
+                        break;
+                    case 7:
+                        this.color.Value = Color.Salmon;
+                        break;
+                }
+                if (Game1.random.NextDouble() < 0.01)
+                {
+                    this.color.Value = Color.White;
+                }
+            }
+            else
+            {
+                switch (Game1.random.Next(8))
+                {
+                    case 0:
+                        this.color.Value = Color.LimeGreen;
+                        break;
+                    case 1:
+                        this.color.Value = Color.Orange;
+                        break;
+                    case 2:
+                        this.color.Value = Color.LightGreen;
+                        break;
+                    case 3:
+                        this.color.Value = Color.Tan;
+                        break;
+                    case 4:
+                        this.color.Value = Color.GreenYellow;
+                        break;
+                    case 5:
+                        this.color.Value = Color.LawnGreen;
+                        break;
+                    case 6:
+                        this.color.Value = Color.PaleGreen;
+                        break;
+                    case 7:
+                        this.color.Value = Color.Turquoise;
+                        break;
+                }
+            }
         }
 
         public override void update(GameTime time, GameLocation location)
@@ -80,22 +148,24 @@ namespace CosmeticRings.Framework.Critters
             {
                 if (base.moveRight || (Math.Abs(this.motion.X) > Math.Abs(this.motion.Y) && this.motion.X > 0f))
                 {
-                    this.Sprite.Animate(time, 4, 4, 50f);
+                    base.flip = false;
+                    this.Sprite.Animate(time, 16, 8, 50f);
                     this.FacingDirection = 1;
                 }
                 else if (base.moveLeft || (Math.Abs(this.motion.X) > Math.Abs(this.motion.Y) && this.motion.X < 0f))
                 {
-                    this.Sprite.Animate(time, 12, 4, 50f);
+                    base.flip = true;
+                    this.Sprite.Animate(time, 16, 8, 50f);
                     this.FacingDirection = 3;
                 }
                 else if (base.moveUp || (Math.Abs(this.motion.Y) > Math.Abs(this.motion.X) && this.motion.Y < 0f))
                 {
-                    this.Sprite.Animate(time, 8, 4, 50f);
+                    this.Sprite.Animate(time, 32, 8, 50f);
                     this.FacingDirection = 0;
                 }
                 else
                 {
-                    this.Sprite.Animate(time, 0, 4, 50f);
+                    this.Sprite.Animate(time, 0, 8, 50f);
                     this.FacingDirection = 2;
                 }
             }
@@ -104,23 +174,16 @@ namespace CosmeticRings.Framework.Critters
                 switch (this.FacingDirection)
                 {
                     case 0:
-                        this.Sprite.Animate(time, 20, 2, 200f);
+                        this.Sprite.Animate(time, 40, 4, 100f);
                         break;
                     case 1:
-                        this.Sprite.Animate(time, 18, 2, 200f);
+                        this.Sprite.Animate(time, 24, 4, 100f);
                         break;
                     case 2:
-                        if (Game1.random.NextDouble() < 0.01)
-                        {
-                            this.Sprite.Animate(time, 24, 4, 500f);
-                        }
-                        else
-                        {
-                            this.Sprite.Animate(time, 16, 2, 200f);
-                        }
+                        this.Sprite.Animate(time, 8, 4, 100f);
                         break;
                     case 3:
-                        this.Sprite.Animate(time, 22, 2, 200f);
+                        this.Sprite.Animate(time, 24, 4, 100f);
                         break;
                 }
             }
@@ -141,6 +204,7 @@ namespace CosmeticRings.Framework.Critters
             if (jumpTimer <= 0)
             {
                 base.jump();
+                this.currentLocation.localSound("junimoMeep1");
                 jumpTimer = Game1.random.Next(500, 3000);
             }
         }
@@ -151,6 +215,19 @@ namespace CosmeticRings.Framework.Critters
             {
                 base.jumpWithoutSound(velocity);
                 jumpTimer = Game1.random.Next(500, 3000);
+            }
+        }
+
+        public override void draw(SpriteBatch b, float alpha = 1f)
+        {
+            if (!base.IsInvisible)
+            {
+                this.Sprite.UpdateSourceRect();
+                b.Draw(this.Sprite.Texture, base.getLocalPosition(Game1.viewport) + new Vector2(this.Sprite.SpriteWidth * 4 / 2, (float)this.Sprite.SpriteHeight * 3f / 4f * 4f / (float)Math.Pow(this.Sprite.SpriteHeight / 16, 2.0) + (float)base.yJumpOffset - 8f) + ((base.shakeTimer > 0) ? new Vector2(Game1.random.Next(-1, 2), Game1.random.Next(-1, 2)) : Vector2.Zero), this.Sprite.SourceRect, this.color.Value, base.rotation, new Vector2(this.Sprite.SpriteWidth * 4 / 2, (float)(this.Sprite.SpriteHeight * 4) * 3f / 4f) / 4f, Math.Max(0.2f, base.scale) * 4f, base.flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, Math.Max(0f, base.drawOnTop ? 0.991f : ((float)base.getStandingY() / 10000f)));
+                if (!base.swimming && !base.HideShadow)
+                {
+                    b.Draw(Game1.shadowTexture, Game1.GlobalToLocal(Game1.viewport, base.Position + new Vector2((float)(this.Sprite.SpriteWidth * 4) / 2f, 44f)), Game1.shadowTexture.Bounds, this.color.Value, 0f, new Vector2(Game1.shadowTexture.Bounds.Center.X, Game1.shadowTexture.Bounds.Center.Y), (4f + (float)base.yJumpOffset / 40f) * (float)base.scale, SpriteEffects.None, Math.Max(0f, (float)base.getStandingY() / 10000f) - 1E-06f);
+                }
             }
         }
     }
