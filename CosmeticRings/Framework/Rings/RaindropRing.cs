@@ -51,6 +51,11 @@ namespace CosmeticRings.Framework.Rings
             location.critters.Add(_rainCloud);
         }
 
+        internal static void HandleLeaveLocation(Farmer who, GameLocation location)
+        {
+
+        }
+
         internal static void Update(Farmer who, GameLocation location)
         {
 

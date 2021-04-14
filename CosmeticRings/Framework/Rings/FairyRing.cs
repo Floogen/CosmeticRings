@@ -56,6 +56,11 @@ namespace CosmeticRings.Framework.Rings
             location.critters.Add(_fairy);
         }
 
+        internal static void HandleLeaveLocation(Farmer who, GameLocation location)
+        {
+
+        }
+
         internal static void Update(Farmer who, GameLocation location)
         {
             // Do nothing

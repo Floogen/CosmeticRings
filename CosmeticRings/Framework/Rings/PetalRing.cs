@@ -47,6 +47,11 @@ namespace CosmeticRings.Framework.Rings
             location.critters.Add(_petal);
         }
 
+        internal static void HandleLeaveLocation(Farmer who, GameLocation location)
+        {
+
+        }
+
         internal static void Update(Farmer who, GameLocation location)
         {
             // Ensure we can force a critter to appear

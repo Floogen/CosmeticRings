@@ -25,6 +25,7 @@ namespace CosmeticRings.Framework.Patches
             harmony.Patch(AccessTools.Method(_ring, nameof(Ring.onEquip), new[] { typeof(Farmer), typeof(GameLocation) }), postfix: new HarmonyMethod(GetType(), nameof(OnEquipPostfix)));
             harmony.Patch(AccessTools.Method(_ring, nameof(Ring.onUnequip), new[] { typeof(Farmer), typeof(GameLocation) }), postfix: new HarmonyMethod(GetType(), nameof(OnUnequipPostfix)));
             harmony.Patch(AccessTools.Method(_ring, nameof(Ring.onNewLocation), new[] { typeof(Farmer), typeof(GameLocation) }), postfix: new HarmonyMethod(GetType(), nameof(OnNewLocationPostfix)));
+            harmony.Patch(AccessTools.Method(_ring, nameof(Ring.onLeaveLocation), new[] { typeof(Farmer), typeof(GameLocation) }), postfix: new HarmonyMethod(GetType(), nameof(OnLeaveLocationPostfix)));
         }
 
         private static void OnEquipPostfix(Ring __instance, Farmer who, GameLocation location)
@@ -48,6 +49,14 @@ namespace CosmeticRings.Framework.Patches
             if (RingManager.IsCosmeticRing(__instance.Name))
             {
                 RingManager.HandleNewLocation(who, environment, __instance.Name);
+            }
+        }
+
+        private static void OnLeaveLocationPostfix(Ring __instance, Farmer who, GameLocation environment)
+        {
+            if (RingManager.IsCosmeticRing(__instance.Name))
+            {
+                RingManager.HandleLeaveLocation(who, environment, __instance.Name);
             }
         }
     }

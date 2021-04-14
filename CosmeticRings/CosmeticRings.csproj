@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="CosmeticRings.cs" />
     <Compile Include="Framework\ApiManager.cs" />
+    <Compile Include="Framework\Critters\BunnyFollower.cs" />
     <Compile Include="Framework\Critters\Fairy.cs" />
     <Compile Include="Framework\Critters\RainCloud.cs" />
     <Compile Include="Framework\Critters\Petal.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Framework\RingManager.cs" />
     <Compile Include="Framework\Rings\FairyRing.cs" />
     <Compile Include="Framework\Rings\ButterflyRing.cs" />
+    <Compile Include="Framework\Rings\BunnyRing.cs" />
     <Compile Include="Framework\Rings\RaindropRing.cs" />
     <Compile Include="Framework\Rings\PetalRing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,6 +77,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="assets\[JA] Cosmetic Rings Pack\Objects\FairyRing\object.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="assets\[JA] Cosmetic Rings Pack\Objects\BunnyRing\object.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="assets\[JA] Cosmetic Rings Pack\Objects\RaindropRing\object.json">
@@ -97,6 +102,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\[JA] Cosmetic Rings Pack\Objects\FairyRing\object.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\[JA] Cosmetic Rings Pack\Objects\BunnyRing\object.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\[JA] Cosmetic Rings Pack\Objects\RaindropRing\object.png">
