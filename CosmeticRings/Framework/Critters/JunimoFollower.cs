@@ -14,6 +14,7 @@ namespace CosmeticRings.Framework.Critters
     internal class JunimoFollower : NPC
     {
         private int jumpTimer;
+        private int movementTimer;
         private readonly NetVector2 motion = new NetVector2(Vector2.Zero);
         private new readonly NetRectangle nextPosition = new NetRectangle();
         private readonly NetColor color = new NetColor();
@@ -106,10 +107,12 @@ namespace CosmeticRings.Framework.Critters
             if (f != null)
             {
                 jumpTimer -= time.ElapsedGameTime.Milliseconds;
-                if (Vector2.Distance(base.Position, f.Position) > 640f)
+                movementTimer = !isMoving() && Vector2.Distance(base.Position, f.Position) > 256f ? movementTimer - time.ElapsedGameTime.Milliseconds : 1000;
+                if (Vector2.Distance(base.Position, f.Position) > 640f || movementTimer <= 0)
                 {
                     this.jump();
                     base.position.Value = f.position;
+                    this.movementTimer = 1000;
                 }
                 else if (Vector2.Distance(base.Position, f.Position) > 64f)
                 {
