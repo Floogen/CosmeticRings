@@ -49,7 +49,7 @@ namespace CosmeticRings.Framework
         internal static void LoadWornRings(Farmer who, GameLocation location, IEnumerable<Ring> rings)
         {
             wornCustomRings = new List<CustomRing>();
-            foreach (Ring ring in rings.Where(r => IsCosmeticRing(r.Name)))
+            foreach (Ring ring in rings.Where(r => r != null && IsCosmeticRing(r.Name)))
             {
                 HandleEquip(who, location, ring);
             }
