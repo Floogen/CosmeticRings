@@ -18,7 +18,8 @@ namespace CosmeticRings.Framework
         RaindropRing,
         BunnyRing,
         JunimoRing,
-        SlimeRing
+        SlimeRing,
+        FireflyRing
     }
 
     internal static class RingManager
@@ -81,6 +82,9 @@ namespace CosmeticRings.Framework
                     break;
                 case RingType.SlimeRing:
                     customRing = new SlimeRing(ring);
+                    break;
+                case RingType.FireflyRing:
+                    customRing = new FireflyRing(ring);
                     break;
                 default:
                     // Do nothing, though we should never reach here as Unknown isn't handled
@@ -155,6 +159,8 @@ namespace CosmeticRings.Framework
                     return RingType.JunimoRing;
                 case nameof(RingType.SlimeRing):
                     return RingType.SlimeRing;
+                case nameof(RingType.FireflyRing):
+                    return RingType.FireflyRing;
                 default:
                     return RingType.Unknown;
             }
