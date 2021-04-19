@@ -18,7 +18,7 @@ namespace CosmeticRings.Framework.Critters
         private readonly NetVector2 motion = new NetVector2(Vector2.Zero);
         private new readonly NetRectangle nextPosition = new NetRectangle();
 
-        public BunnyFollower(Vector2 position) : base(new AnimatedSprite("Animals\\Rabbit", 0, 16, 16), position * 64f, 2, "BunnyFollower")
+        public BunnyFollower(Vector2 position) : base(new AnimatedSprite("Animals\\" + (Game1.random.NextDouble() <= 0.25 ? "Baby" : "") + "Rabbit", 0, 16, 16), position * 64f, 2, "BunnyFollower")
         {
             base.Breather = false;
             base.speed = 5;
