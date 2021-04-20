@@ -38,6 +38,7 @@ namespace CosmeticRings
 
                 // Apply our patches
                 new RingPatch(monitor).Apply(harmony);
+                new UtilityPatch(monitor).Apply(harmony);
             }
             catch (Exception e)
             {
@@ -48,7 +49,31 @@ namespace CosmeticRings
             // Hook into GameLoop events
             helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
             helper.Events.GameLoop.SaveLoaded += this.OnSaveLoaded;
+            helper.Events.GameLoop.Saving += this.OnSaving;
             helper.Events.GameLoop.OneSecondUpdateTicked += this.OnOneSecondUpdateTicked;
+        }
+
+        private void OnSaving(object sender, SavingEventArgs e)
+        {
+            // Go through all game locations and purge any of custom critters / creatures
+            foreach (GameLocation location in Game1.locations.Where(l => l != null))
+            {
+                if (location.critters != null)
+                {
+                    foreach (var critter in location.critters.Where(c => IsCustomFollower(c)).ToList())
+                    {
+                        location.critters.Remove(critter);
+                    }
+                }
+
+                if (location.characters != null)
+                {
+                    foreach (var creature in location.characters.Where(c => IsCustomFollower(c)).ToList())
+                    {
+                        location.characters.Remove(creature);
+                    }
+                }
+            }
         }
 
         private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
@@ -85,6 +110,16 @@ namespace CosmeticRings
             {
                 wearMoreRingsApi = ApiManager.GetIWMRApi();
             }
+        }
+
+        internal static bool IsCustomFollower(object follower)
+        {
+            if (follower != null && follower.GetType().Namespace == "CosmeticRings.Framework.Critters")
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
