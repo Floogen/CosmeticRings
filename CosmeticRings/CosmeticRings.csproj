@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="CosmeticRings.cs" />
     <Compile Include="Framework\ApiManager.cs" />
+    <Compile Include="Framework\Critters\FrogFollower.cs" />
     <Compile Include="Framework\Critters\FireflyFollower.cs" />
     <Compile Include="Framework\Critters\SlimeFollower.cs" />
     <Compile Include="Framework\Critters\JunimoFollower.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Framework\Patches\RingPatch.cs" />
     <Compile Include="Framework\ResourceManager.cs" />
     <Compile Include="Framework\RingManager.cs" />
+    <Compile Include="Framework\Rings\FrogRing.cs" />
     <Compile Include="Framework\Rings\FireflyRing.cs" />
     <Compile Include="Framework\Rings\SlimeRing.cs" />
     <Compile Include="Framework\Rings\CustomRing.cs" />
@@ -79,6 +81,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\[JA] Cosmetic Rings Pack\content-pack.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="assets\[JA] Cosmetic Rings Pack\Objects\FrogRing\object.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="assets\[JA] Cosmetic Rings Pack\Objects\FireflyRing\object.json">
@@ -111,8 +116,19 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\..\Sprite Sandbox\StardewMods\CosmeticRings\Frog_0.png">
+      <Link>assets\Sprites\Frog_0.png</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\Sprite Sandbox\StardewMods\CosmeticRings\Frog_1.png">
+      <Link>assets\Sprites\Frog_1.png</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\..\..\Sprite Sandbox\StardewMods\CosmeticRings\Raindrops.png">
       <Link>assets\Sprites\Raindrops.png</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\[JA] Cosmetic Rings Pack\Objects\FrogRing\object.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\[JA] Cosmetic Rings Pack\Objects\FireflyRing\object.png">
