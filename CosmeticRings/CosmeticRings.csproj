@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="CosmeticRings.cs" />
     <Compile Include="Framework\ApiManager.cs" />
+    <Compile Include="Framework\Critters\DustSprite.cs" />
     <Compile Include="Framework\Critters\FrogFollower.cs" />
     <Compile Include="Framework\Critters\FireflyFollower.cs" />
     <Compile Include="Framework\Critters\SlimeFollower.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Framework\Patches\RingPatch.cs" />
     <Compile Include="Framework\ResourceManager.cs" />
     <Compile Include="Framework\RingManager.cs" />
+    <Compile Include="Framework\Rings\DustRing.cs" />
     <Compile Include="Framework\Rings\FrogRing.cs" />
     <Compile Include="Framework\Rings\FireflyRing.cs" />
     <Compile Include="Framework\Rings\SlimeRing.cs" />
@@ -81,6 +83,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\[JA] Cosmetic Rings Pack\content-pack.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="assets\[JA] Cosmetic Rings Pack\Objects\DustRing\object.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="assets\[JA] Cosmetic Rings Pack\Objects\FrogRing\object.json">
@@ -126,6 +131,9 @@
     </Content>
     <Content Include="..\..\..\Sprite Sandbox\StardewMods\CosmeticRings\Raindrops.png">
       <Link>assets\Sprites\Raindrops.png</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\[JA] Cosmetic Rings Pack\Objects\DustRing\object.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="assets\[JA] Cosmetic Rings Pack\Objects\FrogRing\object.png">
