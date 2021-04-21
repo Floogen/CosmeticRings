@@ -22,7 +22,7 @@ namespace CosmeticRings.Framework.Critters
         public FrogFollower(Vector2 position) : base(new AnimatedSprite(Game1.random.Next(0, 2) == 0 ? ResourceManager.frogTexturePath : ResourceManager.frogAlternativeTexturePath, 0, 16, 16), position * 64f, 2, "FrogFollower")
         {
             base.Breather = false;
-            base.speed = 6;
+            base.speed = CosmeticRings.config.walkingSpeed;
             base.forceUpdateTimer = 9999;
             base.collidesWithOtherCharacters.Value = false;
             base.farmerPassesThrough = true;

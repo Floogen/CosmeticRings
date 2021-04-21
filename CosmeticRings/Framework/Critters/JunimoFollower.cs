@@ -23,7 +23,7 @@ namespace CosmeticRings.Framework.Critters
         public JunimoFollower(Vector2 position) : base(new AnimatedSprite("Characters\\Junimo", 0, 16, 16), position * 64f, 2, "JunimoFollower")
         {
             base.Breather = false;
-            base.speed = 5;
+            base.speed = CosmeticRings.config.walkingSpeed;
             base.forceUpdateTimer = 9999;
             base.collidesWithOtherCharacters.Value = false;
             base.farmerPassesThrough = true;

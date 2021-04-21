@@ -27,7 +27,7 @@ namespace CosmeticRings.Framework.Critters
         public SlimeFollower(Vector2 position) : base(new AnimatedSprite("Characters\\Monsters\\Green Slime", 0, 16, 16), position * 64f, 2, "SlimeFollower")
         {
             base.Breather = false;
-            base.speed = 5;
+            base.speed = CosmeticRings.config.walkingSpeed;
             base.forceUpdateTimer = 9999;
             base.collidesWithOtherCharacters.Value = false;
             base.farmerPassesThrough = true;

@@ -63,8 +63,10 @@
     <Compile Include="Framework\Critters\RainCloud.cs" />
     <Compile Include="Framework\Critters\Petal.cs" />
     <Compile Include="Framework\Critters\ButterflyFollower.cs" />
+    <Compile Include="Framework\Interfaces\IGenericModConfigMenuAPI.cs" />
     <Compile Include="Framework\Interfaces\IWearMoreRingsApi.cs" />
     <Compile Include="Framework\Interfaces\IJsonAssetsApi.cs" />
+    <Compile Include="Framework\ModConfig.cs" />
     <Compile Include="Framework\Patches\UtilityPatch.cs" />
     <Compile Include="Framework\Patches\RingPatch.cs" />
     <Compile Include="Framework\ResourceManager.cs" />

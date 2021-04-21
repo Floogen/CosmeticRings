@@ -19,6 +19,7 @@ namespace CosmeticRings
     {
         internal static IMonitor monitor;
         internal static IModHelper modHelper;
+        internal static ModConfig config;
 
         private IWearMoreRingsApi wearMoreRingsApi;
 
@@ -98,6 +99,18 @@ namespace CosmeticRings
 
         private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
         {
+            // Set our default config
+            config = Helper.ReadConfig<ModConfig>();
+
+            // Hook into the APIs we utilize
+            if (Helper.ModRegistry.IsLoaded("spacechase0.GenericModConfigMenu") && ApiManager.HookIntoGMCM(Helper))
+            {
+                // Register our config options
+                var configAPI = ApiManager.GetGMCMInterface();
+                configAPI.RegisterModConfig(ModManifest, () => config = new ModConfig(), () => Helper.WriteConfig(config));
+                configAPI.RegisterClampedOption(ModManifest, "Follower Speed (Walking)", "", () => config.walkingSpeed, (int val) => config.walkingSpeed = val, 1, 8);
+            }
+
             // Hook into the APIs we utilize
             if (Helper.ModRegistry.IsLoaded("spacechase0.JsonAssets") && ApiManager.HookIntoJsonAssets(Helper))
             {

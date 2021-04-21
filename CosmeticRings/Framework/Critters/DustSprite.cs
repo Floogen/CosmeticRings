@@ -23,7 +23,7 @@ namespace CosmeticRings.Framework.Critters
         public DustSprite(Vector2 position) : base(new AnimatedSprite("Characters\\Monsters\\Dust Spirit"), position * 64f, 2, "DustSprite")
         {
             base.Breather = false;
-            base.speed = 5;
+            base.speed = CosmeticRings.config.walkingSpeed;
             base.forceUpdateTimer = 9999;
             base.collidesWithOtherCharacters.Value = false;
             base.farmerPassesThrough = true;

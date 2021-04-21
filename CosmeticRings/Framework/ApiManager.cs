@@ -8,6 +8,7 @@ namespace CosmeticRings.Framework
         private static IMonitor monitor = CosmeticRings.monitor;
         private static IJsonAssetsApi jsonAssetsApi;
         private static IWearMoreRingsApi wearMoreRingsApi;
+        private static IGenericModConfigMenuAPI genericModConfigMenuApi;
 
         internal static bool HookIntoJsonAssets(IModHelper helper)
         {
@@ -37,6 +38,20 @@ namespace CosmeticRings.Framework
             return true;
         }
 
+        public static bool HookIntoGMCM(IModHelper helper)
+        {
+            genericModConfigMenuApi = helper.ModRegistry.GetApi<IGenericModConfigMenuAPI>("spacechase0.GenericModConfigMenu");
+
+            if (genericModConfigMenuApi is null)
+            {
+                monitor.Log("Failed to hook into spacechase0.GenericModConfigMenu.", LogLevel.Error);
+                return false;
+            }
+
+            monitor.Log("Successfully hooked into spacechase0.GenericModConfigMenu.", LogLevel.Debug);
+            return true;
+        }
+
         internal static IJsonAssetsApi GetJsonAssetsApi()
         {
             return jsonAssetsApi;
@@ -45,6 +60,11 @@ namespace CosmeticRings.Framework
         internal static IWearMoreRingsApi GetIWMRApi()
         {
             return wearMoreRingsApi;
+        }
+
+        public static IGenericModConfigMenuAPI GetGMCMInterface()
+        {
+            return genericModConfigMenuApi;
         }
     }
 }
